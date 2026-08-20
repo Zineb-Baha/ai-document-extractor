@@ -1,0 +1,30 @@
+<div class="upload-container">
+
+  <h1>AI Document Extractor</h1>
+
+  <p>Upload an invoice or business document</p>
+
+  <input
+    type="file"
+    accept=".pdf,.jpg,.jpeg,.png"
+    (change)="onFileSelected($event)"
+  />
+
+  @if (selectedFile) {
+    <p>
+      Selected file: <strong>{{ selectedFile.name }}</strong>
+    </p>
+  }
+
+  <button
+    (click)="upload()"
+    [disabled]="uploading"
+  >
+    {{ uploading ? 'Uploading...' : 'Upload Document' }}
+  </button>
+
+  @if (message) {
+    <p>{{ message }}</p>
+  }
+
+</div>
