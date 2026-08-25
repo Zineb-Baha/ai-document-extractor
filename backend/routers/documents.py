@@ -2,6 +2,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from pathlib import Path
 from services.ocr_service import extract_text_from_image
 from services.pdf_service import extract_text_from_pdf
+from services.ai_service import extract_invoice_data
 import uuid
 
 router = APIRouter(
@@ -47,15 +48,25 @@ async def upload_document(file: UploadFile = File(...)):
 
     extracted_text = None
 
+    # Image → OCR
     if file.content_type.startswith("image/"):
         extracted_text = extract_text_from_image(str(file_path))
+
+    # PDF → text extraction / OCR fallback
     elif file.content_type == "application/pdf":
         extracted_text = extract_text_from_pdf(str(file_path))
+
+    # Raw text → Gemini
+    structured_data = None
+
+    if extracted_text:
+        structured_data = extract_invoice_data(extracted_text)
 
     return {
         "id": document_id,
         "fileName": file.filename,
         "contentType": file.content_type,
         "extractedText": extracted_text,
-        "message": "Document uploaded successfully"
+        "structuredData": structured_data,
+        "message": "Document processed successfully"
     }
