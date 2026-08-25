@@ -1,42 +1,450 @@
-<div class="upload-container">
+<div class="upload-page">
 
   <h1>AI Document Extractor</h1>
 
-  <p>Upload an invoice or business document</p>
+  <!-- ========================= -->
+  <!-- UPLOAD -->
+  <!-- ========================= -->
 
-  <input
-    type="file"
-    accept=".pdf,.jpg,.jpeg,.png"
-    (change)="onFileSelected($event)"
-  />
+  <div class="upload-card">
 
-  @if (selectedFile) {
-    <p>
-      Selected file: <strong>{{ selectedFile.name }}</strong>
-    </p>
-  }
+    <h2>Upload document</h2>
+
+    <input
+      type="file"
+      accept=".pdf,.png,.jpg,.jpeg"
+      (change)="onFileSelected($event)"
+    />
+
+    @if (selectedFile) {
+      <p>
+        Selected file:
+        <strong>{{ selectedFile.name }}</strong>
+      </p>
+    }
+
+    <button
+      type="button"
+      (click)="upload()"
+      [disabled]="!selectedFile || uploading"
+    >
+      {{ uploading ? 'Processing...' : 'Extract data' }}
+    </button>
+
+    @if (message) {
+      <p class="message">
+        {{ message }}
+      </p>
+    }
+
+  </div>
+
+
+  <!-- ========================= -->
+  <!-- REVIEW -->
+  <!-- ========================= -->
+
+  @if (structuredData) {
+
+    <div class="review-card">
+
+      <div class="review-header">
+
+        <div>
+          <h2>Review extracted data</h2>
+
+          <p>
+            Check and correct the information before exporting.
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- ========================= -->
+      <!-- INVOICE INFORMATION -->
+      <!-- ========================= -->
+
+      <section>
+
+        <h3>Invoice information</h3>
+
+        <div class="form-grid">
+
+          <div class="field">
+
+            <label>Invoice number</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.invoice_number"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Invoice date</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.invoice_date"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Currency</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.currency"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Document type</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.document_type"
+            />
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================= -->
+      <!-- SUPPLIER -->
+      <!-- ========================= -->
+
+      <section>
+
+        <h3>Supplier</h3>
+
+        <div class="form-grid">
+
+          <div class="field">
+
+            <label>Name</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.supplier.name"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Email</label>
+
+            <input
+              type="email"
+              [(ngModel)]="structuredData.supplier.email"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Phone</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.supplier.phone"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Address</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.supplier.address"
+            />
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================= -->
+      <!-- CUSTOMER -->
+      <!-- ========================= -->
+
+      <section>
+
+        <h3>Customer</h3>
+
+        <div class="form-grid">
+
+          <div class="field">
+
+            <label>Name</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.customer.name"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Email</label>
+
+            <input
+              type="email"
+              [(ngModel)]="structuredData.customer.email"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Phone</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.customer.phone"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Address</label>
+
+            <input
+              type="text"
+              [(ngModel)]="structuredData.customer.address"
+            />
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================= -->
+      <!-- ITEMS -->
+      <!-- ========================= -->
+
+      <section>
+
+        <h3>Items</h3>
+
+        @if (structuredData.items.length > 0) {
+
+          <div class="table-wrapper">
+
+            <table>
+
+              <thead>
+
+                <tr>
+                  <th>Description</th>
+                  <th>Quantity</th>
+                  <th>Unit price</th>
+                  <th>Total</th>
+                </tr>
+
+              </thead>
+
+              <tbody>
+
+                @for (
+                  item of structuredData.items;
+                  track $index
+                ) {
+
+                  <tr>
+
+                    <td>
+
+                      <input
+                        type="text"
+                        [(ngModel)]="item.description"
+                      />
+
+                    </td>
+
+
+                    <td>
+
+                      <input
+                        type="number"
+                        [(ngModel)]="item.quantity"
+                      />
+
+                    </td>
+
+
+                    <td>
+
+                      <input
+                        type="number"
+                        [(ngModel)]="item.unit_price"
+                      />
+
+                    </td>
+
+
+                    <td>
+
+                      <input
+                        type="number"
+                        [(ngModel)]="item.total"
+                      />
+
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        } @else {
+
+          <p>No items detected.</p>
+
+        }
+
+      </section>
+
+
+      <!-- ========================= -->
+      <!-- TOTALS -->
+      <!-- ========================= -->
+
+      <section>
+
+        <h3>Totals</h3>
+
+        <div class="totals">
+
+          <div class="field">
+
+            <label>Subtotal</label>
+
+            <input
+              type="number"
+              [(ngModel)]="structuredData.subtotal"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Tax</label>
+
+            <input
+              type="number"
+              [(ngModel)]="structuredData.tax"
+            />
+
+          </div>
+
+
+          <div class="field">
+
+            <label>Total</label>
+
+            <input
+              type="number"
+              [(ngModel)]="structuredData.total"
+            />
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ========================= -->
+      <!-- EXPORT -->
+      <!-- ========================= -->
+
+      <section class="export-section">
+
+        <h3>Export</h3>
+
+       <div class="export-buttons">
 
   <button
-    (click)="upload()"
-    [disabled]="uploading"
+    type="button"
+    (click)="exportJson()"
   >
-    {{ uploading ? 'Uploading...' : 'Upload Document' }}
+    Export JSON
   </button>
 
-  @if (message) {
-    <p>{{ message }}</p>
+  <button
+    type="button"
+    (click)="exportXml()"
+  >
+    Export XML
+  </button>
+
+  <button
+    type="button"
+    (click)="exportExcel()"
+  >
+    Export Excel
+  </button>
+
+</div>
+
+      </section>
+
+    </div>
+
   }
 
-  
+
+  <!-- ========================= -->
+  <!-- RAW OCR TEXT -->
+  <!-- ========================= -->
 
   @if (extractedText) {
-    <div class="ocr-result">
 
-      <h3>Extracted Text</h3>
+    <details class="raw-text">
+
+      <summary>
+        View raw extracted text
+      </summary>
 
       <pre>{{ extractedText }}</pre>
 
-    </div>
+    </details>
+
   }
 
 </div>

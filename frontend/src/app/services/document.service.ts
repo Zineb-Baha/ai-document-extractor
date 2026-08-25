@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { InvoiceData } from '../models/invoice.model';
 
 export interface UploadResponse {
   id: string;
   fileName: string;
   contentType: string;
   extractedText: string | null;
+  structuredData: InvoiceData | null;
   message: string;
 }
 
@@ -22,6 +24,7 @@ export class DocumentService {
   uploadDocument(file: File): Observable<UploadResponse> {
 
     const formData = new FormData();
+
     formData.append('file', file);
 
     return this.http.post<UploadResponse>(

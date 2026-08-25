@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from google import genai
+import json
 
 load_dotenv()
 
@@ -72,4 +73,4 @@ INVOICE TEXT:
         contents=prompt
     )
 
-    return response.text
+    return json.loads(response.text)
