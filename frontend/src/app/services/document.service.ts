@@ -6,6 +6,7 @@ export interface UploadResponse {
   id: string;
   fileName: string;
   contentType: string;
+  extractedText: string | null;
   message: string;
 }
 

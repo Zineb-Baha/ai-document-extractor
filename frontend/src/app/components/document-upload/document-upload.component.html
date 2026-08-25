@@ -27,4 +27,16 @@
     <p>{{ message }}</p>
   }
 
+  
+
+  @if (extractedText) {
+    <div class="ocr-result">
+
+      <h3>Extracted Text</h3>
+
+      <pre>{{ extractedText }}</pre>
+
+    </div>
+  }
+
 </div>

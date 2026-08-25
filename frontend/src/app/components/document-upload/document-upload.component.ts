@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DocumentService } from "../../services/document.service";
+import { DocumentService } from '../../services/document.service';
 
 @Component({
   selector: 'app-document-upload',
@@ -12,6 +12,7 @@ export class DocumentUpload {
 
   selectedFile: File | null = null;
   message = '';
+  extractedText = '';
   uploading = false;
 
   constructor(private readonly documentService: DocumentService) {}
@@ -23,6 +24,7 @@ export class DocumentUpload {
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
       this.message = '';
+      this.extractedText = '';
     }
   }
 
@@ -35,27 +37,31 @@ export class DocumentUpload {
 
     this.uploading = true;
     this.message = '';
+    this.extractedText = '';
 
     this.documentService
       .uploadDocument(this.selectedFile)
       .subscribe({
+
         next: (response) => {
           this.uploading = false;
+
+          this.extractedText = response.extractedText ?? '';
 
           this.message =
             `✓ ${response.message} (${response.fileName})`;
         },
 
         error: (error) => {
-  this.uploading = false;
+          this.uploading = false;
 
-  console.error('UPLOAD ERROR:', error);
-  console.error('STATUS:', error.status);
-  console.error('ERROR:', error.error);
-  console.error('MESSAGE:', error.message);
+          console.error('UPLOAD ERROR:', error);
+          console.error('STATUS:', error.status);
+          console.error('ERROR:', error.error);
+          console.error('MESSAGE:', error.message);
 
-  this.message = `❌ Upload failed (${error.status})`;
-}
+          this.message = `❌ Upload failed (${error.status})`;
+        }
       });
   }
 }
