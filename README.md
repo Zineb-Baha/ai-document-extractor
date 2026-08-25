@@ -82,7 +82,9 @@ The application supports PDF and image documents and combines OCR, PDF processin
 
 <img width="502" height="880" alt="image" src="https://github.com/user-attachments/assets/616874ab-a485-49f9-ba71-bb791e800779" />
 
-Export Json
+### Export JSON
+
+```json
 {
   "document_type": "invoice",
   "invoice_number": "US-001",
@@ -124,9 +126,11 @@ Export Json
   "total": 154.06,
   "currency": "$"
 }
+```
 
-Export Excel
+Export XML
 
+```xml
 <invoice>
 <document_type>invoice</document_type>
 <invoice_number>US-001</invoice_number>
@@ -168,8 +172,9 @@ Export Excel
 <tax>9.06</tax>
 <total>154.06</total>
 </invoice>
+```
 
-Export XML
+Export Excel
 
 <img width="835" height="750" alt="image" src="https://github.com/user-attachments/assets/c694ca28-4cf1-47be-9f33-3c23fc03d4a1" />
 <img width="977" height="722" alt="image" src="https://github.com/user-attachments/assets/7fc389bb-1c82-4e36-aae3-fdf2c1b82f33" />
