@@ -80,7 +80,10 @@ The application supports PDF and image documents and combines OCR, PDF processin
 
 ### Extracted Invoice Data
 
-<img width="502" height="880" alt="image" src="https://github.com/user-attachments/assets/616874ab-a485-49f9-ba71-bb791e800779" />
+<img width="1367" height="737" alt="image" src="https://github.com/user-attachments/assets/a260d61d-1e5c-4828-9e9b-2f6a6698f28a" />
+<img width="1372" height="727" alt="image" src="https://github.com/user-attachments/assets/0610a7eb-3b6c-4237-a580-c7402d68d3fe" />
+<img width="1371" height="440" alt="image" src="https://github.com/user-attachments/assets/9cc50d25-fe95-4ad0-bf55-1cf673c825c6" />
+
 
 ### Export JSON
 
