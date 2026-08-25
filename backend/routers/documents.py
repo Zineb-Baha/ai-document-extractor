@@ -1,5 +1,6 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from pathlib import Path
+from services.ocr_service import extract_text_from_image
 import uuid
 
 router = APIRouter(
@@ -43,9 +44,15 @@ async def upload_document(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         buffer.write(content)
 
+    extracted_text = None
+
+    if file.content_type.startswith("image/"):
+        extracted_text = extract_text_from_image(str(file_path))
+
     return {
         "id": document_id,
         "fileName": file.filename,
         "contentType": file.content_type,
+        "extractedText": extracted_text,
         "message": "Document uploaded successfully"
     }
